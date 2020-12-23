@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="300dp"
+    android:background="#fff"
+    >
+    <ImageView
+        android:src="@drawable/ic_baseline_shopping_cart_24"
+        android:id="@+id/img"
+        android:layout_width="160dp"
+        android:layout_height="140dp"
+        android:scaleType="centerCrop"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:maxLines="2"
+        android:layout_width="160dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Naruto: Shippuuden"
+        android:textColor="#213244"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_marginBottom="10dp"
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20$"
+        android:textColor="#D50000"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+
+    <Button
+
+        android:paddingVertical="10dp"
+        android:id="@+id/btnDatHang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Đặt hàng"
+        android:textSize="16sp"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:background="#8F04ADC6"
+        android:padding="10dp"
+        />
+
+</LinearLayout>
+

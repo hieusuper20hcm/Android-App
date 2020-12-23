@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/nav_shopping"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#213244">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="#213244"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:tint="@android:color/white"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="HISTORY"
+                android:textStyle="bold"
+                android:textSize="45dp"
+                android:textColor="#fff"
+                android:gravity="center"
+                android:paddingRight="20dp"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/note"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Bạn chưa đặt hàng bao giờ"
+            android:textColor="@android:color/black"
+            android:textSize="30dp"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rv_history">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+</RelativeLayout>

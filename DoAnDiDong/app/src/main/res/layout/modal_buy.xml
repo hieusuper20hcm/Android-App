@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomContainer"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#C8F6F3F3">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#213244"
+        android:text="Chọn size"
+        android:textColor="@android:color/white"
+        android:textSize="25dp"
+        android:padding="10dp"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rdSize"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginVertical="10dp">
+        <RadioButton
+            android:id="@+id/rdS"
+            android:text="S"
+            android:checked="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"/>
+
+        <RadioButton
+            android:id="@+id/rdM"
+            android:text="M"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"/>
+
+        <RadioButton
+            android:id="@+id/rdL"
+            android:text="L"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"/>
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#213244"
+        android:text="Chọn màu"
+        android:textColor="@android:color/white"
+        android:textSize="25dp"
+        android:padding="10dp"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rdColor"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginVertical="10dp">
+        <RadioButton
+            android:id="@+id/rdBlack"
+            android:text="Đen"
+            android:checked="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"/>
+
+        <RadioButton
+            android:id="@+id/rdWhite"
+            android:text="Trắng"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"/>
+
+        <RadioButton
+            android:id="@+id/rdRed"
+            android:text="Xanh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"/>
+    </RadioGroup>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingVertical="10dp">
+
+        <Button
+            android:id="@+id/btnDecrease"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/edit"
+            android:text="-"
+            android:textSize="32dp" />
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="30dp"
+            android:textColor="@android:color/black"/>
+        <Button
+            android:id="@+id/btnIncrease"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="+"
+            android:textSize="32dp"
+            android:background="@drawable/edit"
+            android:layout_marginHorizontal="20dp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/btnXacNhan"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button"
+        android:layout_marginBottom="10dp"
+        android:weightSum="5"
+        >
+        <TextView
+            android:id="@+id/cartCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 món"
+            android:textSize="20dp"
+            android:textColor="#ffff"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đặt hàng"
+            android:textSize="20dp"
+            android:textColor="#ffff"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="3"
+            />
+        <TextView
+            android:id="@+id/cartPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="200000"
+            android:textSize="20dp"
+            android:textColor="#ffff"
+            android:layout_gravity="center"
+            android:gravity="left"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>
