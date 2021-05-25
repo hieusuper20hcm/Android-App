@@ -48,7 +48,7 @@ import model.Product;
 public class DetailActivity extends AppCompatActivity {
     TextView tv_id,tv_name,tv_price,tv_description,tv_img,tv_count,cartCount,cartPrice;
     ImageView img;
-    Button btnDatHang, btnIncrease, btnDecrease;
+    Button btnOK, btnIncrease, btnDecrease;
     RadioGroup rdSize, rdColor;
     RadioButton size, color;
     RequestOptions options;
@@ -78,9 +78,9 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         AnhXa();
-        Back();
         getData();
         jsonCallLike();
+        Back();
     }
 
     public void onDestroy()
@@ -116,14 +116,14 @@ public class DetailActivity extends AppCompatActivity {
         Glide.with(DetailActivity.this).load(product.getImg()).apply(options).into(img);
 
         if(!status){
-            btnDatHang.setBackgroundTintList(getColorStateList(R.color.grey));
-            btnDatHang.setEnabled(false);
-            btnDatHang.setText("Đã hết hàng");
+            btnOK.setBackgroundTintList(getColorStateList(R.color.grey));
+            btnOK.setEnabled(false);
+            btnOK.setText("Đã hết hàng");
         }
 
 
 
-        btnDatHang.setOnClickListener(new View.OnClickListener() {
+        btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final BottomSheetDialog bottomSheetDialog= new BottomSheetDialog(DetailActivity.this,R.style.BottomSheetDialogTheme);
@@ -185,7 +185,7 @@ public class DetailActivity extends AppCompatActivity {
         tv_description=findViewById(R.id.tv_description);
         tv_img=findViewById(R.id.tv_img);
         img=findViewById(R.id.img);
-        btnDatHang=findViewById(R.id.btnDatHang);
+        btnOK=findViewById(R.id.btnDatHang);
         like=findViewById(R.id.like);
     }
 

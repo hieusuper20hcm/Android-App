@@ -62,7 +62,7 @@ public class NotificationFragment extends Fragment {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://192.168.1.2:5000/");
+            mSocket = IO.socket("http://172.21.105.117:5000/");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -142,7 +142,7 @@ public class NotificationFragment extends Fragment {
                 Intent intent=new Intent(getContext(), DetailActivity.class);
                 intent.putExtra("userID",userID);
                 intent.putExtra("detail", (Serializable) lst.get(postion));
-                getContext().startActivity(intent);
+                startActivity(intent);
             }
         });
     }

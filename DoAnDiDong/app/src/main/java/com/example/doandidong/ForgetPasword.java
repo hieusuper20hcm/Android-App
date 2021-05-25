@@ -1,5 +1,6 @@
 package com.example.doandidong;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -56,7 +57,7 @@ public class ForgetPasword extends AppCompatActivity {
             if(randomNumber==Integer.valueOf(inputOTP.getText().toString())){
                 Intent intent=new Intent(ForgetPasword.this,UpdatePassword.class);
                 intent.putExtra("email",inputEmail.getText().toString());
-                startActivity(intent);
+                startActivityForResult(intent, 102);
             }else {
                 Toast.makeText(ForgetPasword.this, "Sai mã OTP", Toast.LENGTH_LONG).show();
             }
@@ -145,6 +146,17 @@ public class ForgetPasword extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 102 && resultCode == 101){
+            Intent intent=new Intent(ForgetPasword.this,LoginActivity.class);
+            intent.putExtra("email", data.getStringExtra("email"));
+            intent.putExtra("password", data.getStringExtra("password"));
+            setResult(101, intent);
+            finish();
+        }
+
+    }
 
 
     public void hideKeyboard(View view) {

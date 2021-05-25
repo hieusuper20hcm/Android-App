@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,10 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapter.RecyclerDataAdapter;
-
 import model.Product;
 
-public class ShirtActivity extends AppCompatActivity {
+public class Accessories extends AppCompatActivity {
     private RequestQueue requestQueue;
     private String URL_PRODUCT="http://10.0.2.2:5000/api/product";
     private List<Product> lstProduct = new ArrayList<>();
@@ -38,7 +36,7 @@ public class ShirtActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shirt);
+        setContentView(R.layout.activity_accessories);
         myrv = findViewById(R.id.rvProduct);
         getData();
         Back();
@@ -67,7 +65,7 @@ public class ShirtActivity extends AppCompatActivity {
                 for (int i = 0 ; i<response.length();i++) {
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
-                        if(jsonObject.getString("categories").equals("Áo")) {
+                        if(jsonObject.getString("categories").equals("Phụ kiện")) {
                             Product products = new Product();
                             products.setId(jsonObject.getString("_id"));
                             products.setName(jsonObject.getString("name"));
@@ -89,7 +87,7 @@ public class ShirtActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ShirtActivity.this,error.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(Accessories.this,error.toString(),Toast.LENGTH_LONG).show();
             }
         });
         requestQueue.add(ArrayRequest);

@@ -173,7 +173,8 @@
             android:id="@+id/rvProduct"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#C8F6F3F3"></androidx.recyclerview.widget.RecyclerView>
+            android:background="#C8F6F3F3">
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
 </RelativeLayout>

@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DoAnDiDong"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UpdatePassword"></activity>
+        <activity android:name=".Accessories"></activity>
+        <activity android:name=".UpdatePassword" />
         <activity android:name=".ForgetPasword" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".ShirtActivity" />

@@ -130,6 +130,14 @@ public class HomeFragment extends Fragment {
             intent.putExtra("email",email);
             startActivity(intent);
         });
+        other.setOnClickListener(v -> {
+            Intent intent=new Intent(getContext(),Accessories.class);
+            intent.putExtra("userID",userID);
+            intent.putExtra("phone",phone);
+            intent.putExtra("name",name);
+            intent.putExtra("email",email);
+            startActivity(intent);
+        });
         searchView.setOnClickListener(v->{
             Intent intent =new Intent(getContext(),SearchActivity.class);
             intent.putParcelableArrayListExtra("lstProduct", (ArrayList<? extends Parcelable>) lstProduct);

@@ -25,6 +25,7 @@ public class CartDataAdapter extends RecyclerView.Adapter<CartDataAdapter.DataVi
     RequestOptions options ;
     private List<Cart> cart;
     private CartActivity context;
+    private CartDataAdapter.OnItemClickListener mListener;
 
     public CartDataAdapter(List<Cart> cart, CartActivity context) {
         this.cart = cart;
@@ -41,13 +42,20 @@ public class CartDataAdapter extends RecyclerView.Adapter<CartDataAdapter.DataVi
         return cart == null ? 0 : cart.size();
     }
 
+    public interface OnItemClickListener{
+        void onClick(int postion);
+    }
+    public void setOnItemClickListener(CartDataAdapter.OnItemClickListener listener){
+        mListener=listener;
+    }
+
     @Override
     public DataViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView;
 
         itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_row, parent, false);
 
-        return new DataViewHolder(itemView);
+        return new CartDataAdapter.DataViewHolder(itemView, mListener);
     }
 
     @Override
@@ -86,7 +94,7 @@ public class CartDataAdapter extends RecyclerView.Adapter<CartDataAdapter.DataVi
         ImageView imgthumbnail;
         Button btnXoa;
 
-        public DataViewHolder(View itemView) {
+        public DataViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
 
             tvName = itemView.findViewById(R.id.tv_name);
@@ -95,6 +103,18 @@ public class CartDataAdapter extends RecyclerView.Adapter<CartDataAdapter.DataVi
             tvSize = itemView.findViewById(R.id.tv_size_color);
             imgthumbnail = itemView.findViewById(R.id.img);
             btnXoa=itemView.findViewById(R.id.btnXoa);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener!=null){
+                        int position=getAdapterPosition();
+                        if(position!=RecyclerView.NO_POSITION){
+                            listener.onClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }

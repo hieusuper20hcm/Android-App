@@ -73,6 +73,7 @@ public class TrouserActivity extends AppCompatActivity {
                             products.setImg("http://10.0.2.2:5000" + jsonObject.getString("img"));
                             products.setCategories(jsonObject.getString("categories"));
                             products.setDescription(jsonObject.getString("description"));
+                            products.setStatus(jsonObject.getBoolean("status"));
                             lstProduct.add(products);
                         }
                     }

@@ -1,5 +1,6 @@
 package com.example.doandidong;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -80,13 +81,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, SignInActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 100);
             }
         });
 
         forgetPassword.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, ForgetPasword.class);
-            startActivity(intent);
+            startActivityForResult(intent, 102);
         });
     }
 
@@ -204,6 +205,19 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100 && resultCode == 101){
+            edtEmail.setText(data.getStringExtra("email"));
+            edtPassword.setText(data.getStringExtra("password"));
+        }
+        if(requestCode == 102 && resultCode == 101){
+            edtEmail.setText(data.getStringExtra("email"));
+            edtPassword.setText(data.getStringExtra("password"));
+        }
     }
 
     public void hideKeyboard(View view) {

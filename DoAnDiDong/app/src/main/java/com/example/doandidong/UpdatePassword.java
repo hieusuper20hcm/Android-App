@@ -97,8 +97,12 @@ public class UpdatePassword extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getString("msg").equals("Thay đổi mật khẩu thành công")){
-                                Intent intent=new Intent(UpdatePassword.this,LoginActivity.class);
-                                startActivity(intent);
+                                Intent intent=new Intent(UpdatePassword.this,ForgetPasword.class);
+                                intent.putExtra("email", email);
+                                intent.putExtra("password", edtPassword.getText().toString());
+                                setResult(101, intent);
+                                finish();
+
                                 Toast.makeText(UpdatePassword.this,jsonObject.getString("msg") , Toast.LENGTH_SHORT).show();
                             }
                             else {

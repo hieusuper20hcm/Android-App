@@ -92,7 +92,9 @@ public class SignInActivity extends AppCompatActivity {
                             if (jsonObject.getString("msg").equals("Đăng ký thành công"))
                             {
                                 Intent intent=new Intent(SignInActivity.this,LoginActivity.class);
-                                startActivity(intent);
+                                intent.putExtra("email", inputEmail.getText().toString());
+                                intent.putExtra("password", edtPassword.getText().toString());
+                                setResult(101, intent);
                                 Toast.makeText(SignInActivity.this,"Đăng ký thành công",Toast.LENGTH_LONG).show();
                                 finish();
                             }

@@ -1,5 +1,6 @@
 package com.example.doandidong;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,16 +8,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,13 +35,17 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import java.util.HashMap;
@@ -44,31 +54,40 @@ import java.util.Locale;
 import java.util.Map;
 
 import adapter.CartDataAdapter;
+import adapter.NotificationDataAdapter;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
 import io.socket.emitter.Emitter;
 import model.Cart;
+import model.Product;
 
 
 public class CartActivity extends AppCompatActivity {
     private String URL_JSON = "http://10.0.2.2:5000/api/cart/";
     private String URL_DELETE = "http://10.0.2.2:5000/api/cart/delete";
+    private String URL_UPDATE = "http://10.0.2.2:5000/api/cart/update";
+
     private JsonObjectRequest ArrayRequest ;
     private List<Cart> lstCart = new ArrayList<>();
     private RecyclerView myrv ;
-    private TextView sumCount,sumPrice,note;
+    private TextView sumCount,sumPrice,note,cartCount,cartPrice,tv_count;
     private EditText inputPhone,inputAddress;
     private LinearLayout layout,contact;
-    private Button btnDatHang;
-    private String userID,phone,name,email,idRemove;
+    private Button btnDatHang,btnIncrease, btnDecrease;;
+    private String userID,phone,name,email,idRemove, time;
+    private RadioGroup rdSize, rdColor;
+    private RadioButton size, color;
     private boolean flaginput=true;
     private CartDataAdapter myAdapter;
+    private RequestQueue requestQueue;
+    private StringRequest stringRequest;
+    View bottomSheetView;
 
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://172.21.10.80:5000/");
+            mSocket = IO.socket("http://172.21.105.117:5000/");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -126,8 +145,8 @@ public class CartActivity extends AppCompatActivity {
         });
     }
     public void DatHang(){
-        RequestQueue requestQueue= Volley.newRequestQueue(CartActivity.this);
-        StringRequest stringRequest=new StringRequest(Request.Method.POST,URL_JSON,
+        requestQueue= Volley.newRequestQueue(CartActivity.this);
+        stringRequest=new StringRequest(Request.Method.POST,URL_JSON,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -168,6 +187,7 @@ public class CartActivity extends AppCompatActivity {
                         btnDatHang.setEnabled(true);
                     }
                 }){
+
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params=new HashMap<>();
@@ -176,6 +196,7 @@ public class CartActivity extends AppCompatActivity {
                 params.put("phone",phone);
                 params.put("email",email);
                 params.put("address",inputAddress.getText().toString());
+
                 return params;
             }
         };
@@ -357,8 +378,8 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void DeleteCart(final String id){
-        RequestQueue requestQueue= Volley.newRequestQueue(this);
-        StringRequest stringRequest=new StringRequest(Request.Method.POST,URL_DELETE,
+        requestQueue= Volley.newRequestQueue(this);
+        stringRequest=new StringRequest(Request.Method.POST,URL_DELETE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -383,19 +404,124 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
-    public void onDestroy()
-    {
-        super.onDestroy();
-        mSocket.disconnect();
-    }
-
-
     public void setRvadapter (List<Cart> lst) {
         myAdapter = new CartDataAdapter(lst,this) ;
         myrv.setLayoutManager(new LinearLayoutManager(this));
         myrv.setAdapter(myAdapter);
+        Locale locale = new Locale("vi", "VN");
+        final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
+        myAdapter.setOnItemClickListener(new CartDataAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int postion) {
+                BottomSheetDialog bottomSheetDialog= new BottomSheetDialog(CartActivity.this,R.style.BottomSheetDialogTheme);
+                bottomSheetView= LayoutInflater.from(getApplicationContext()).inflate(R.layout.modal_buy,(LinearLayout)findViewById(R.id.bottomContainer));
+                bottomSheetDialog.setContentView(bottomSheetView);
+                bottomSheetDialog.show();
+                AnhXaBottomSheet();
+                Cart lstCart=lst.get(postion);
+                CheckRadio(lstCart);
+                
+                tv_count.setText(lstCart.getCount().toString());
+                cartCount.setText(lstCart.getCount().toString()+" món");
+                cartPrice.setText(currencyFormatter.format(lstCart.getCount()*lstCart.getPrice()));
+
+
+                btnIncrease.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int price=lstCart.getPrice();
+                        int count = Integer.parseInt(tv_count.getText().toString())+1;
+                        tv_count.setText(String.valueOf(count));
+                        cartCount.setText(String.valueOf(count)+" món");
+                        cartPrice.setText(currencyFormatter.format(price*count));
+
+                    }
+                });
+                btnDecrease.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int price=lstCart.getPrice();
+                        int count = Integer.parseInt(tv_count.getText().toString())-1;
+                        if(count<=0){
+                            count=1;
+                        }
+                        tv_count.setText(String.valueOf(count));
+                        cartCount.setText(String.valueOf(count)+" món");
+                        cartPrice.setText(currencyFormatter.format(price*count));
+                    }
+                });
+                bottomSheetView.findViewById(R.id.btnXacNhan).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int radioSize=rdSize.getCheckedRadioButtonId();
+                        size=bottomSheetView.findViewById(radioSize);
+                        int radioColor=rdColor.getCheckedRadioButtonId();
+                        color=bottomSheetView.findViewById(radioColor);
+                        if(lstCart.getSize()!=size.getText() || lstCart.getColor()!=color.getText() || lstCart.getCount().toString()!=tv_count.getText()){
+                            UpdateCart(lstCart.getId(),size.getText().toString(),color.getText().toString(),Integer.parseInt((String) tv_count.getText()));
+                        }
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+            }
+        });
     }
 
+    public void AnhXaBottomSheet(){
+        rdSize=bottomSheetView.findViewById(R.id.rdSize);
+        rdColor=bottomSheetView.findViewById(R.id.rdColor);
+        btnIncrease=bottomSheetView.findViewById(R.id.btnIncrease);
+        btnDecrease=bottomSheetView.findViewById(R.id.btnDecrease);
+        tv_count=bottomSheetView.findViewById(R.id.tv_count);
+        cartCount=bottomSheetView.findViewById(R.id.cartCount);
+        cartPrice=bottomSheetView.findViewById(R.id.cartPrice);
+
+    }
+
+    public void CheckRadio(Cart cart){
+        if(cart.getSize().equals("M")){
+            rdSize.check(R.id.rdM);
+        }
+        else if(cart.getSize().equals("L")){
+            rdSize.check(R.id.rdL);
+        }
+
+        if(cart.getColor().equals("Trắng")){
+            rdColor.check(R.id.rdWhite);
+        }
+        else if(cart.getColor().equals("Xanh")){
+            rdColor.check(R.id.rdRed);
+        }
+    }
+
+    public void UpdateCart( final String id,final String size, final String color,final Integer count){
+        requestQueue= Volley.newRequestQueue(this);
+        stringRequest=new StringRequest(Request.Method.POST, URL_UPDATE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        jsoncall();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(CartActivity.this, "Lỗi", Toast.LENGTH_SHORT).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<>();
+                params.put("id",id);
+                params.put("userID",userID);
+                params.put("size",size);
+                params.put("color",color);
+                params.put("count", count.toString());
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
     public void hideKeyboard(View view) {
         inputPhone.clearFocus();
         inputAddress.clearFocus();
